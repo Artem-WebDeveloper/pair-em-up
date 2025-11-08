@@ -1,0 +1,15 @@
+{
+  "name": "pair-em-up",
+  "version": "1.0.0",
+  "description": "browser-game pair-em-up",
+  "license": "ISC",
+  "author": "ArtemWebDeveloper",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "sass": "sass ./src/styles/scss/main.scss ./src/styles/css/style.css -w"
+  },
+  "devDependencies": {
+    "sass": "^1.93.3"
+  }
+}
