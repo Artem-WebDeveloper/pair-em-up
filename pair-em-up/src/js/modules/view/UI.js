@@ -7,6 +7,12 @@ class UI {
 
     return el;
   }
+
+  clearContainer(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
 }
 
 export default new UI();

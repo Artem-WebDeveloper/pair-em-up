@@ -1,28 +1,34 @@
 import ui from './UI.js';
+import renderGameScreen from './renderGameScreen.js';
 
 export default function () {
+  const container = document.querySelector('.container');
   const startEl = ui.createEl('div', 'start');
   const modes = ui.createEl('ul', 'start__modes');
-  const modeClass = createModeCard(
+  const modeClassic = createModeCard(
     '🎯 Classic Mode',
-    'A balanced mode with a clear and predictable layout. Perfect for players who like a steady challenge and strategic planning'
+    'A balanced mode with a clear and predictable layout. Perfect for players who like a steady challenge and strategic planning',
+    'classic'
   );
   const modeRandom = createModeCard(
     '🎲 Random Mode',
-    'Numbers appear in a shuffled, unpredictable order. Adds excitement and surprise to every game — keeps you thinking on your feet.'
+    'Numbers appear in a shuffled, unpredictable order. Adds excitement and surprise to every game — keeps you thinking on your feet.',
+    'random'
   );
   const modeСhaotic = createModeCard(
     '🔥 Chaotic Mode',
-    'Completely random numbers fill the grid with no restrictions. Fast-paced and intense — only the sharpest strategies will succeed.'
+    'Completely random numbers fill the grid with no restrictions. Fast-paced and intense — only the sharpest strategies will succeed.',
+    'chaotic'
   );
   const copyright = createCopyright();
   const startTitle = ui.createEl('h1', 'title', 'Pair Em Up');
 
-  modes.append(modeRandom, modeClass, modeСhaotic);
+  modes.append(modeRandom, modeClassic, modeСhaotic);
 
   startEl.append(startTitle, modes, copyright);
 
-  document.querySelector('.container').append(startEl);
+  ui.clearContainer(container);
+  container.append(startEl);
 }
 
 function createCopyright() {
@@ -36,11 +42,13 @@ function createCopyright() {
 
   return el;
 }
-function createModeCard(title, text) {
+function createModeCard(title, text, mode = null) {
   const modeCard = ui.createEl('li', 'start__mode-card');
   const modeTitle = ui.createEl('h2', 'start__mode-title', title);
   const modeDescrip = ui.createEl('p', 'start__mode-description', text);
   const modeBtn = ui.createEl('button', 'btn', 'Start Game');
+
+  modeBtn.addEventListener('click', () => renderGameScreen(mode));
 
   modeCard.append(modeTitle, modeDescrip, modeBtn);
 

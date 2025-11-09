@@ -1,7 +1,9 @@
 .start {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  // min-height: 0;
+  overflow: auto;
+  flex: 1;
   gap: 6rem;
   & > :last-child {
     margin-top: auto;
