@@ -1,5 +1,6 @@
 import ui from './UI.js';
 import renderGameScreen from './renderGameScreen.js';
+import { STATE, saveState } from '../config.js';
 
 export default function () {
   const container = document.querySelector('.container');
@@ -43,10 +44,12 @@ function createCopyright() {
   return el;
 }
 function createModeCard(title, text, mode = null) {
+  const btnText = STATE.mode === mode ? 'Continue' : 'Start Game';
+
   const modeCard = ui.createEl('li', 'start__mode-card');
   const modeTitle = ui.createEl('h2', 'start__mode-title', title);
   const modeDescrip = ui.createEl('p', 'start__mode-description', text);
-  const modeBtn = ui.createEl('button', 'btn', 'Start Game');
+  const modeBtn = ui.createEl('button', 'btn', btnText);
 
   modeBtn.addEventListener('click', () => renderGameScreen(mode));
 

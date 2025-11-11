@@ -1,6 +1,7 @@
 export const STATE = {
-  mode: '',
+  mode: 'gamescreen',
   grid: [],
+  selected: [],
 };
 
 let initialState = { ...STATE };
@@ -16,3 +17,7 @@ let initialState = { ...STATE };
 //     addNumbers: 0,
 //     shuffle: 0,
 //     eraser: 0,
+
+export function saveState(curState) {
+  localStorage.setItem('gameState', JSON.stringify(curState));
+}

@@ -1,0 +1,49 @@
+.game {
+  width: 100%;
+
+  &__field {
+    background-color: rgba(81, 80, 83, 0.938);
+    width: 65%;
+  }
+
+  &__title-mode {
+    text-align: center;
+    font-size: 2.6rem;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 0.5rem;
+    padding: 2rem;
+  }
+
+  &__cell {
+    cursor: pointer;
+    // width: 5rem;
+    // height: 5rem;
+    // padding: 2rem;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-items: center;
+
+    background-color: rgb(19, 131, 191);
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: rgb(19, 157, 231);
+    }
+
+    &:active {
+      scale: 0.95;
+    }
+
+    &--selected {
+      background-color: rgb(14, 92, 135);
+    }
+
+    &--empty {
+      background-color: rgb(18, 117, 171);
+    }
+  }
+}

@@ -1,12 +1,25 @@
 import ui from './UI.js';
-import { STATE } from '../config.js';
+import { STATE, saveState } from '../config.js';
+
+// arr должен быть в зависимости от режима разный
+const arr = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 1, 3, 1, 4, 1, 5, 1, 6, 1, 7, 1, 8, 1,
+  9,
+];
 
 export default function (mode) {
   STATE.mode = mode;
+  STATE.selected.length = 0;
+  if (STATE.grid.length === 0) STATE.grid.push(...arr);
+
+  saveState(STATE);
+  console.log(STATE);
   const container = document.querySelector('.container');
   ui.clearContainer(container);
 
   STATE.mode = mode;
+
+  container.append(createGameScreen(mode));
 }
 
 function createGameScreen(mode) {
@@ -23,7 +36,84 @@ function createGameScreen(mode) {
   const titleMode = ui.createEl('h3', 'game__title-mode', modesTitle[mode]);
 
   gameField.append(titleMode, gameGrid);
+
+  gameScreen.append(gameField);
+
+  renderCells(STATE.grid, gameGrid);
+
+  gameGrid.addEventListener('click', e => handleCellClick(e, gameGrid));
+
+  return gameScreen;
 }
+
+function handleCellClick(e, container) {
+  const selected = STATE.selected;
+  const click = e.target;
+
+  if (!click.closest('.game__cell')) return;
+
+  if (selected.length < 2) {
+    selected.push(click);
+    click.classList.toggle('game__cell--selected');
+  }
+
+  if (selected.length === 2) {
+    document
+      .querySelectorAll('.game__cell')
+      .forEach(el => el.classList.remove('game__cell--selected'));
+    console.log(checkPair(selected));
+
+    if (checkPair(selected)) {
+      const indices = selected.map(el => +el.dataset.index);
+      STATE.grid.forEach((_, i, arr) => {
+        if (indices.includes(i)) arr[i] = null;
+      });
+
+      console.log(STATE.grid);
+
+      saveState(STATE);
+      ui.clearContainer(container);
+      renderCells(STATE.grid, container);
+    }
+
+    selected.length = 0;
+  }
+}
+
+function checkPair(pair) {
+  const [firstEl, secEl] = pair;
+  const firstNum = firstEl.textContent;
+  const secNum = secEl.textContent;
+  const firstIndex = firstEl.dataset.index;
+  const secIndex = secEl.dataset.index;
+
+  return (
+    +firstIndex !== +secIndex &&
+    (Number(firstNum) + Number(secNum) === 10 ||
+      Number(firstNum) === Number(secNum))
+  );
+}
+
+//! TO DO FRAGMENT для производительности!
+function renderCells(arr, parent) {
+  arr.forEach((num, i) => {
+    const cell = ui.createEl(
+      'span',
+      num ? 'game__cell' : 'game__cell game__cell--empty',
+      num || ''
+    );
+    cell.dataset.index = i;
+    parent.append(cell);
+  });
+}
+
+//
+//
+//
+//
+//
+//
+//! INTERFACE TODO
 
 function createGameInterface() {
   const gameInterface = ui.createEl('div', 'game__interface');

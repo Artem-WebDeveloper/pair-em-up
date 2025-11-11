@@ -125,4 +125,42 @@ ul {
   justify-self: center;
 }
 
+.game {
+  width: 100%;
+}
+.game__field {
+  background-color: rgba(81, 80, 83, 0.938);
+  width: 65%;
+}
+.game__title-mode {
+  text-align: center;
+  font-size: 2.6rem;
+}
+.game__grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 0.5rem;
+  padding: 2rem;
+}
+.game__cell {
+  cursor: pointer;
+  aspect-ratio: 1/1;
+  display: grid;
+  place-items: center;
+  background-color: rgb(19, 131, 191);
+  transition: all 0.3s;
+}
+.game__cell:hover {
+  background-color: rgb(19, 157, 231);
+}
+.game__cell:active {
+  scale: 0.95;
+}
+.game__cell--selected {
+  background-color: rgb(14, 92, 135);
+}
+.game__cell--empty {
+  background-color: rgb(18, 117, 171);
+}
+
 /*# sourceMappingURL=style.css.map */
