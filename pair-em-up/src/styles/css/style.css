@@ -14,6 +14,7 @@
   --empty-cell: rgb(18, 117, 171);
   --succes-cell: #4caf50;
   --selected-cell: rgb(14, 92, 135);
+  --error-cell: #f44336;
 }
 
 *,
@@ -142,6 +143,8 @@ button {
 
 .game {
   width: 100%;
+  display: flex;
+  gap: 2rem;
 }
 .game__field {
   background-color: rgba(81, 80, 83, 0.938);
@@ -177,6 +180,12 @@ button {
 .game__cell--selected {
   background-color: var(--selected-cell);
 }
+@media (hover: hover) and (pointer: fine) {
+  .game__cell--selected:hover {
+    background-color: var(--selected-cell);
+    filter: brightness(1.1);
+  }
+}
 .game__cell--empty {
   background-color: var(--empty-cell);
   pointer-events: none;
@@ -187,11 +196,21 @@ button {
   animation: fadeOut 0.4s ease forwards;
   animation-delay: 0.45s;
 }
+@media (hover: hover) and (pointer: fine) {
+  .game__cell--success:hover {
+    background-color: var(--succes-cell);
+  }
+}
 .game__cell--error {
-  background-color: #f44336;
+  background-color: var(--error-cell);
   color: white;
   transition: all 0.05s;
   animation: shake 0.5s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .game__cell--error:hover {
+    background-color: var(--error-cell);
+  }
 }
 
 @keyframes fadeOut {
@@ -228,6 +247,13 @@ button {
   100% {
     transform: translateX(0);
   }
+}
+.game__interface {
+  flex: 1;
+}
+.game__info {
+  display: flex;
+  justify-content: space-between;
 }
 
 /*# sourceMappingURL=style.css.map */

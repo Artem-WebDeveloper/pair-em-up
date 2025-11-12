@@ -44,7 +44,7 @@ function createCopyright() {
   return el;
 }
 function createModeCard(title, text, mode = null) {
-  const btnText = STATE.mode === mode ? 'Continue' : 'Start Game';
+  const btnText = STATE.mode === mode ? 'Continue' : 'New Game';
 
   const modeCard = ui.createEl('li', 'start__mode-card');
   const modeTitle = ui.createEl('h2', 'start__mode-title', title);

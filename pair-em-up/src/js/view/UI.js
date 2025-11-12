@@ -1,9 +1,10 @@
 class UI {
-  createEl(tag, className = null, text = null, src = null) {
+  createEl(tag, className = null, text = null, src = null, id = null) {
     const el = document.createElement(tag);
     if (className) el.className = className;
-    if (text) el.textContent = text;
+    if (text || text === 0 || text === '') el.textContent = text;
     if (src) el.src = src;
+    if (id) el.id = id;
 
     return el;
   }

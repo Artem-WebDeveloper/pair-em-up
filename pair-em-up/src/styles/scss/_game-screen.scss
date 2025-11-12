@@ -1,6 +1,7 @@
 .game {
   width: 100%;
-
+  display: flex;
+  gap: 2rem;
   &__field {
     background-color: rgba(81, 80, 83, 0.938);
     width: 65%;
@@ -43,6 +44,12 @@
 
     &--selected {
       background-color: var(--selected-cell);
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background-color: var(--selected-cell);
+          filter: brightness(1.1);
+        }
+      }
     }
 
     &--empty {
@@ -55,13 +62,25 @@
       transition: background-color 0.4s ease, color 0.3s ease;
       animation: fadeOut 0.4s ease forwards;
       animation-delay: 0.45s;
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background-color: var(--succes-cell);
+        }
+      }
     }
 
     &--error {
-      background-color: #f44336;
+      background-color: var(--error-cell);
       color: white;
       transition: all 0.05s;
       animation: shake 0.5s ease;
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background-color: var(--error-cell);
+        }
+      }
     }
   }
 }
