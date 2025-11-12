@@ -11,6 +11,9 @@
   --text-secondary-color: #b0b0b0;
   --gradient-text: linear-gradient(94deg, #6fb1fc 27%, rgb(196, 35, 177) 70%);
   --shadow-color: rgba(0, 0, 0, 0.5);
+  --empty-cell: rgb(18, 117, 171);
+  --succes-cell: #4caf50;
+  --selected-cell: rgb(14, 92, 135);
 }
 
 *,
@@ -46,6 +49,18 @@ body {
 
 ul {
   list-style: none;
+}
+
+button,
+input,
+textarea,
+a {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+button {
+  touch-action: manipulation;
 }
 
 .container {
@@ -143,24 +158,76 @@ ul {
   padding: 2rem;
 }
 .game__cell {
+  user-select: none;
   cursor: pointer;
   aspect-ratio: 1/1;
   display: grid;
   place-items: center;
   background-color: rgb(19, 131, 191);
-  transition: all 0.3s;
+  transition: all 0.16s;
 }
-.game__cell:hover {
-  background-color: rgb(19, 157, 231);
+@media (hover: hover) and (pointer: fine) {
+  .game__cell:hover {
+    background-color: rgb(19, 157, 231);
+  }
 }
 .game__cell:active {
   scale: 0.95;
 }
 .game__cell--selected {
-  background-color: rgb(14, 92, 135);
+  background-color: var(--selected-cell);
 }
 .game__cell--empty {
-  background-color: rgb(18, 117, 171);
+  background-color: var(--empty-cell);
+  pointer-events: none;
+}
+.game__cell--success {
+  background-color: var(--succes-cell);
+  transition: background-color 0.4s ease, color 0.3s ease;
+  animation: fadeOut 0.4s ease forwards;
+  animation-delay: 0.45s;
+}
+.game__cell--error {
+  background-color: #f44336;
+  color: white;
+  transition: all 0.05s;
+  animation: shake 0.5s ease;
+}
+
+@keyframes fadeOut {
+  from {
+    background-color: var(--succes-cell);
+  }
+  to {
+    background-color: var(--empty-cell);
+    color: transparent;
+  }
+}
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  15% {
+    transform: translateX(-2px);
+  }
+  30% {
+    transform: translateX(2px);
+  }
+  45% {
+    transform: translateX(-2px);
+  }
+  60% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-1px);
+  }
+  90% {
+    transform: translateX(1px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

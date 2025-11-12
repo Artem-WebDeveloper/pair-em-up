@@ -69,11 +69,21 @@ function handleCellClick(e, container) {
         if (indices.includes(i)) arr[i] = null;
       });
 
-      console.log(STATE.grid);
-
       saveState(STATE);
-      ui.clearContainer(container);
-      renderCells(STATE.grid, container);
+      selected.forEach(cell => cell.classList.add('game__cell--success'));
+
+      setTimeout(() => {
+        ui.clearContainer(container);
+        renderCells(STATE.grid, container);
+      }, 700);
+    } else {
+      const copySelected = [...selected];
+      copySelected.forEach(cell => cell.classList.add('game__cell--error'));
+      setTimeout(() => {
+        copySelected.forEach(cell =>
+          cell.classList.remove('game__cell--error')
+        );
+      }, 400);
     }
 
     selected.length = 0;
@@ -87,15 +97,42 @@ function checkPair(pair) {
   const firstIndex = firstEl.dataset.index;
   const secIndex = secEl.dataset.index;
 
+  const isEmptyValid =
+    checkIsEmptyCells(firstIndex, secIndex, STATE.grid) ||
+    checkIsEmptyColumns(firstIndex, secIndex, STATE.grid);
+
   return (
+    isEmptyValid &&
     +firstIndex !== +secIndex &&
     (Number(firstNum) + Number(secNum) === 10 ||
       Number(firstNum) === Number(secNum))
   );
 }
 
-//! TO DO FRAGMENT для производительности!
+function checkIsEmptyCells(firstIndex, secIndex, grid) {
+  const lbound = Math.min(firstIndex, secIndex);
+  const ubound = Math.max(firstIndex, secIndex);
+
+  const between = grid.slice(lbound + 1, ubound);
+
+  return between.every(el => el === null);
+}
+
+function checkIsEmptyColumns(firstIndex, secIndex, grid) {
+  if (firstIndex % 9 !== secIndex % 9) return false;
+
+  const step = 9;
+  const start = Math.min(firstIndex, secIndex) + step;
+  const end = Math.max(firstIndex, secIndex);
+
+  for (let i = start; i < end; i += step) {
+    if (grid[i] !== null) return false;
+  }
+  return true;
+}
+
 function renderCells(arr, parent) {
+  const fragment = document.createDocumentFragment();
   arr.forEach((num, i) => {
     const cell = ui.createEl(
       'span',
@@ -103,8 +140,9 @@ function renderCells(arr, parent) {
       num || ''
     );
     cell.dataset.index = i;
-    parent.append(cell);
+    fragment.append(cell);
   });
+  parent.append(fragment);
 }
 
 //

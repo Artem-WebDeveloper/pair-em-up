@@ -19,6 +19,7 @@
   }
 
   &__cell {
+    user-select: none;
     cursor: pointer;
     // width: 5rem;
     // height: 5rem;
@@ -28,10 +29,12 @@
     place-items: center;
 
     background-color: rgb(19, 131, 191);
-    transition: all 0.3s;
+    transition: all 0.16s;
 
-    &:hover {
-      background-color: rgb(19, 157, 231);
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: rgb(19, 157, 231);
+      }
     }
 
     &:active {
@@ -39,11 +42,62 @@
     }
 
     &--selected {
-      background-color: rgb(14, 92, 135);
+      background-color: var(--selected-cell);
     }
 
     &--empty {
-      background-color: rgb(18, 117, 171);
+      background-color: var(--empty-cell);
+      pointer-events: none;
     }
+
+    &--success {
+      background-color: var(--succes-cell);
+      transition: background-color 0.4s ease, color 0.3s ease;
+      animation: fadeOut 0.4s ease forwards;
+      animation-delay: 0.45s;
+    }
+
+    &--error {
+      background-color: #f44336;
+      color: white;
+      transition: all 0.05s;
+      animation: shake 0.5s ease;
+    }
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    background-color: var(--succes-cell);
+  }
+  to {
+    background-color: var(--empty-cell);
+    color: transparent;
+  }
+}
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  15% {
+    transform: translateX(-2px);
+  }
+  30% {
+    transform: translateX(2px);
+  }
+  45% {
+    transform: translateX(-2px);
+  }
+  60% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-1px);
+  }
+  90% {
+    transform: translateX(1px);
+  }
+  100% {
+    transform: translateX(0);
   }
 }

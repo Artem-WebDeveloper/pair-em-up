@@ -16,7 +16,7 @@ export default function () {
     'Numbers appear in a shuffled, unpredictable order. Adds excitement and surprise to every game — keeps you thinking on your feet.',
     'random'
   );
-  const modeСhaotic = createModeCard(
+  const modeChaotic = createModeCard(
     '🔥 Chaotic Mode',
     'Completely random numbers fill the grid with no restrictions. Fast-paced and intense — only the sharpest strategies will succeed.',
     'chaotic'
@@ -24,7 +24,7 @@ export default function () {
   const copyright = createCopyright();
   const startTitle = ui.createEl('h1', 'title', 'Pair Em Up');
 
-  modes.append(modeRandom, modeClassic, modeСhaotic);
+  modes.append(modeRandom, modeClassic, modeChaotic);
 
   startEl.append(startTitle, modes, copyright);
 
