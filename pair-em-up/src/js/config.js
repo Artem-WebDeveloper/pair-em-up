@@ -6,6 +6,7 @@ export const DEFAULT_STATE = {
   grid: [],
   selected: [],
   startTime: null,
+  elapsedBefore: 0,
   assistsLeft: {
     validMoves: 0,
     revert: 1,

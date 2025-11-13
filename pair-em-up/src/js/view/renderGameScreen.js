@@ -8,7 +8,7 @@ import { startTimer } from '../game/timer.js';
 export default function (mode) {
   if (STATE.mode !== mode) {
     resetState();
-    STATE.startTime = Date.now();
+    if (!STATE.startTime) STATE.startTime = Date.now();
   }
 
   STATE.mode = mode;

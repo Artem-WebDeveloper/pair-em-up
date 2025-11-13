@@ -1,10 +1,12 @@
-import { STATE } from '../config.js';
+import { STATE, saveState } from '../config.js';
 
 let timerInterval = null;
 
 export function startTimer() {
-  stopTimer();
+  if (timerInterval) return;
 
+  STATE.startTime = Date.now();
+  saveState(STATE);
   timerInterval = setInterval(() => {
     updateTimerDisplay();
   }, 1000);
@@ -15,13 +17,20 @@ export function stopTimer() {
     clearInterval(timerInterval);
     timerInterval = null;
   }
+
+  if (STATE.startTime) {
+    const elapsedNow = Date.now() - STATE.startTime;
+    STATE.elapsedBefore += Math.floor(elapsedNow / 1000);
+    STATE.startTime = null;
+
+    saveState(STATE);
+  }
 }
 
 export function getElapsedSeconds() {
-  if (!STATE.startTime) return 0;
-
+  if (!STATE.startTime) return STATE.elapsedBefore;
   const elapsed = Date.now() - STATE.startTime;
-  return Math.floor(elapsed / 1000);
+  return Math.floor(elapsed / 1000) + STATE.elapsedBefore;
 }
 
 export function formatTimer(secs) {
