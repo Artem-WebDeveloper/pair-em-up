@@ -1,10 +1,14 @@
-import { STATE, saveState } from '../config.js';
+import { STATE, saveState, resetState } from '../config.js';
+import { getChaoticGrid, shuffleArray } from '../helpers.js';
 import ui from '../view/UI.js';
+import renderGameScreen from '../view/renderGameScreen.js';
+import { updateValidMovesDisplay } from '../view/createGameInterface.js';
 import renderCells from '../view/renderCells.js';
 
 export function handleCellClick(e, container) {
   const selected = STATE.selected;
   const click = e.target;
+  const eraserBtn = document.getElementById('eraser-btn');
 
   if (!click.closest('.game__cell')) return;
 
@@ -12,6 +16,10 @@ export function handleCellClick(e, container) {
     selected.push(click);
     click.classList.toggle('game__cell--selected');
   }
+
+  if (selected.length === 1 && STATE.assistsLeft.eraser !== 0)
+    eraserBtn.disabled = false;
+  else eraserBtn.disabled = true;
 
   if (selected.length === 2) {
     document
@@ -25,6 +33,8 @@ export function handleCellClick(e, container) {
         if (indices.includes(i)) arr[i] = null;
       });
 
+      updateValidMoves();
+      updateValidMovesDisplay(STATE.assistsLeft.validMoves);
       saveState(STATE);
       selected.forEach(cell => cell.classList.add('game__cell--success'));
 
@@ -85,4 +95,75 @@ function checkIsEmptyColumns(firstIndex, secIndex, grid) {
     if (grid[i] !== null) return false;
   }
   return true;
+}
+
+function countValidMoves(grid) {
+  let count = 0;
+  for (let i = 0; i < grid.length; i++) {
+    if (grid[i] === null) continue;
+
+    for (let j = i + 1; j < grid.length; j++) {
+      if (grid[j] === null) continue;
+
+      const isValid = grid[i] === grid[j] || grid[i] + grid[j] === 10;
+      const emptyValid =
+        checkIsEmptyCells(i, j, grid) || checkIsEmptyColumns(i, j, grid);
+
+      if (isValid && emptyValid) count++;
+    }
+  }
+  return count;
+}
+
+export function updateValidMoves() {
+  STATE.assistsLeft.validMoves = countValidMoves(STATE.grid);
+}
+
+// *ASSISTS*
+export function handlerAddNumbers(mode) {
+  if (STATE.grid.length / 9 >= 50) {
+    alert('YOU LOSE!');
+    return;
+  }
+  if (STATE.assistsLeft.addNumbers > 0) {
+    STATE.assistsLeft.addNumbers--;
+
+    const addNumbers = STATE['grid'].filter(num => num !== null);
+    const modes = {
+      classic: addNumbers,
+      random: shuffleArray(addNumbers),
+      chaotic: getChaoticGrid(addNumbers.length),
+    };
+
+    STATE.grid.push(...modes[mode]);
+    saveState(STATE);
+    renderGameScreen(mode);
+  }
+}
+
+export function handlerShuffle() {
+  if (STATE.assistsLeft.shuffle <= 0) return;
+  STATE.assistsLeft.shuffle--;
+
+  const newGrid = shuffleArray(STATE.grid);
+  STATE.grid.length = 0;
+  STATE.grid.push(...newGrid);
+  saveState(STATE);
+  renderGameScreen(STATE.mode);
+}
+
+export function handleEraser(elem) {
+  if (!elem || STATE.assistsLeft.eraser <= 0) return;
+  STATE.assistsLeft.eraser--;
+
+  const index = +elem.dataset.index;
+  STATE.grid[index] = null;
+  saveState(STATE);
+  renderGameScreen(STATE.mode);
+}
+
+// *CONTROLS*
+export function handlerResetCurGame(mode) {
+  resetState();
+  mode ? renderGameScreen(mode) : renderGameScreen('startscreen');
 }

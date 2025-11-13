@@ -3,9 +3,13 @@ import { STATE, getModeGrid, saveState, resetState } from '../config.js';
 import { handleCellClick } from '../game/logic.js';
 import createGameInterface from './createGameInterface.js';
 import renderCells from './renderCells.js';
+import { startTimer } from '../game/timer.js';
 
 export default function (mode) {
-  if (STATE.mode !== mode) resetState();
+  if (STATE.mode !== mode) {
+    resetState();
+    STATE.startTime = Date.now();
+  }
 
   STATE.mode = mode;
   STATE.selected.length = 0;
@@ -13,13 +17,14 @@ export default function (mode) {
   if (STATE.grid.length === 0) STATE.grid.push(...getModeGrid(mode));
   console.log('state:', STATE);
   saveState(STATE);
-  console.log(STATE);
+
   const container = document.querySelector('.container');
   ui.clearContainer(container);
 
   STATE.mode = mode;
 
   container.append(createGameScreen(mode));
+  startTimer();
 }
 
 function createGameScreen(mode) {

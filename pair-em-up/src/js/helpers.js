@@ -7,8 +7,8 @@ export const shuffleArray = function (arr) {
   return array;
 };
 
-export function getChaoticGrid() {
-  return Array.from({ length: 27 }, () => getRandomInt(1, 9));
+export function getChaoticGrid(lengthGrid = 27) {
+  return Array.from({ length: lengthGrid }, () => getRandomInt(1, 9));
 }
 
 function getRandomInt(min, max) {

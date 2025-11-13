@@ -1,8 +1,11 @@
 import ui from './UI.js';
 import renderGameScreen from './renderGameScreen.js';
 import { STATE, saveState } from '../config.js';
+import { stopTimer } from '../game/timer.js';
 
 export default function () {
+  stopTimer();
+
   const container = document.querySelector('.container');
   const startEl = ui.createEl('div', 'start');
   const modes = ui.createEl('ul', 'start__modes');
