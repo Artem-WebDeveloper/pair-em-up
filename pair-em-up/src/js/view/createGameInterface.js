@@ -150,3 +150,9 @@ export function updateValidMovesDisplay(validMoves) {
   if (!validEl) return;
   validEl.textContent = `Valid moves ${validMoves > 5 ? '5+' : validMoves}`;
 }
+
+export function updateScoreDisplay(score) {
+  const scoreCurEl = document.querySelector('.game__score--cur');
+  if (!scoreCurEl) return;
+  scoreCurEl.textContent = score;
+}

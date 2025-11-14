@@ -7,6 +7,7 @@ export const DEFAULT_STATE = {
   selected: [],
   startTime: null,
   elapsedBefore: 0,
+  gameStatus: 'playing',
   assistsLeft: {
     validMoves: 0,
     revert: 1,
@@ -24,6 +25,9 @@ const DEFAULT_GRID = [
 ];
 
 export const GOAL_SCORE = 100;
+export const DOUBLE_5_SCORE = 3;
+export const SUM_10_SCORE = 2;
+export const IDENT_PAIR_SCORE = 1;
 
 export function getModeGrid(mode) {
   switch (mode) {

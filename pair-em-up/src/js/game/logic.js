@@ -1,8 +1,18 @@
-import { STATE, saveState, resetState } from '../config.js';
+import {
+  STATE,
+  saveState,
+  resetState,
+  DOUBLE_5_SCORE,
+  SUM_10_SCORE,
+  IDENT_PAIR_SCORE,
+} from '../config.js';
 import { getChaoticGrid, shuffleArray } from '../helpers.js';
 import ui from '../view/UI.js';
 import renderGameScreen from '../view/renderGameScreen.js';
-import { updateValidMovesDisplay } from '../view/createGameInterface.js';
+import {
+  updateValidMovesDisplay,
+  updateScoreDisplay,
+} from '../view/createGameInterface.js';
 import renderCells from '../view/renderCells.js';
 
 export function handleCellClick(e, container) {
@@ -14,6 +24,7 @@ export function handleCellClick(e, container) {
 
   if (selected.length < 2) {
     selected.push(click);
+    console.log(STATE);
     click.classList.toggle('game__cell--selected');
   }
 
@@ -33,6 +44,9 @@ export function handleCellClick(e, container) {
         if (indices.includes(i)) arr[i] = null;
       });
 
+      STATE.score += getPairScore(selected);
+
+      updateScoreDisplay(STATE.score);
       updateValidMoves();
       updateValidMovesDisplay(STATE.assistsLeft.validMoves);
       saveState(STATE);
@@ -73,6 +87,20 @@ function checkPair(pair) {
     (Number(firstNum) + Number(secNum) === 10 ||
       Number(firstNum) === Number(secNum))
   );
+}
+
+function getPairScore(pair) {
+  const [a, b] = pair.map(el => +el.textContent);
+
+  const rules = new Map([
+    [() => a === 5 && b === 5, DOUBLE_5_SCORE],
+    [() => a === b, IDENT_PAIR_SCORE],
+    [() => a + b === 10, SUM_10_SCORE],
+  ]);
+  for (const [check, score] of rules) {
+    if (check()) return score;
+  }
+  return 0;
 }
 
 function checkIsEmptyCells(firstIndex, secIndex, grid) {
