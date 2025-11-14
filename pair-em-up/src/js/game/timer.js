@@ -5,8 +5,11 @@ let timerInterval = null;
 export function startTimer() {
   if (timerInterval) return;
 
-  STATE.startTime = Date.now();
-  saveState(STATE);
+  if (!STATE.startTime) {
+    STATE.startTime = Date.now();
+    saveState(STATE);
+  }
+
   timerInterval = setInterval(() => {
     updateTimerDisplay();
   }, 1000);

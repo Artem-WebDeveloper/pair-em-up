@@ -18,6 +18,7 @@ import {
 } from '../view/createGameInterface.js';
 import renderCells from '../view/renderCells.js';
 import { checkGameStatus } from './gameStatus.js';
+import { startTimer } from './timer.js';
 
 export function handleCellClick(e, container) {
   const selected = STATE.selected;
@@ -261,5 +262,8 @@ export function handlerSaveGame() {
 }
 
 export function handlerContinueGame() {
-  if (loadGame()) renderGameScreen(STATE.mode);
+  if (!loadGame()) return;
+
+  renderGameScreen(STATE.mode);
+  startTimer();
 }

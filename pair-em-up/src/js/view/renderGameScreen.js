@@ -1,15 +1,23 @@
 import ui from './UI.js';
-import { STATE, getModeGrid, saveState, resetState } from '../config.js';
+import {
+  STATE,
+  getModeGrid,
+  saveState,
+  resetState,
+  deleteSavedGame,
+} from '../config.js';
 import { handleCellClick } from '../game/logic.js';
 import createGameInterface from './createGameInterface.js';
 import renderCells from './renderCells.js';
 import { startTimer } from '../game/timer.js';
 
 export default function (mode) {
-  if (STATE.mode !== mode) {
+  if (STATE.mode && STATE.mode !== mode) {
+    deleteSavedGame();
     resetState();
-    if (!STATE.startTime) STATE.startTime = Date.now();
+    // if (!STATE.startTime) STATE.startTime = Date.now();
   }
+  if (!STATE.startTime) STATE.startTime = Date.now();
 
   STATE.mode = mode;
   STATE.selected.length = 0;

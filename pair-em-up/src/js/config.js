@@ -27,7 +27,7 @@ const DEFAULT_GRID = [
 
 export const COLS = 9;
 export const MAX_GRID_ROWS = 50;
-export const GOAL_SCORE = 10;
+export const GOAL_SCORE = 3;
 export const DOUBLE_5_SCORE = 3;
 export const SUM_10_SCORE = 2;
 export const IDENT_PAIR_SCORE = 1;
@@ -50,7 +50,9 @@ export function saveState(curState) {
 }
 
 export function resetState() {
+  const savedMode = STATE.mode;
   Object.assign(STATE, structuredClone(DEFAULT_STATE));
+  STATE.mode = savedMode;
 }
 
 export function saveGame() {
@@ -85,6 +87,10 @@ export function loadGame() {
   STATE.selected = [];
   saveState(STATE);
   return true;
+}
+
+export function deleteSavedGame() {
+  localStorage.removeItem('savedGame');
 }
 
 // grid: [],
