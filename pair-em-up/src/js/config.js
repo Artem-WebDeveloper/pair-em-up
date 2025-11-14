@@ -8,13 +8,14 @@ export const DEFAULT_STATE = {
   startTime: null,
   elapsedBefore: 0,
   gameStatus: 'playing',
+  validMoves: 0,
   assistsLeft: {
-    validMoves: 0,
-    revert: 1,
+    revert: 0,
     addNumbers: 10,
     shuffle: 5,
     eraser: 5,
   },
+  history: null,
 };
 
 export const STATE = structuredClone(DEFAULT_STATE);
@@ -24,7 +25,9 @@ const DEFAULT_GRID = [
   9,
 ];
 
-export const GOAL_SCORE = 100;
+export const COLS = 9;
+export const MAX_GRID_ROWS = 50;
+export const GOAL_SCORE = 10;
 export const DOUBLE_5_SCORE = 3;
 export const SUM_10_SCORE = 2;
 export const IDENT_PAIR_SCORE = 1;
@@ -48,6 +51,40 @@ export function saveState(curState) {
 
 export function resetState() {
   Object.assign(STATE, structuredClone(DEFAULT_STATE));
+}
+
+export function saveGame() {
+  const stateToSave = JSON.parse(
+    JSON.stringify({
+      mode: STATE.mode,
+      score: STATE.score,
+      grid: STATE.grid,
+      startTime: STATE.startTime,
+      elapsedBefore: STATE.elapsedBefore,
+      gameStatus: STATE.gameStatus,
+      validMoves: STATE.validMoves,
+      assistsLeft: STATE.assistsLeft,
+      history: STATE.history,
+    })
+  );
+  localStorage.setItem('savedGame', JSON.stringify(stateToSave));
+}
+export function loadGame() {
+  const savedGame = localStorage.getItem('savedGame');
+  if (!savedGame) return false;
+  const parsed = JSON.parse(savedGame);
+  STATE.mode = parsed.mode;
+  STATE.score = parsed.score;
+  STATE.grid = parsed.grid;
+  STATE.startTime = parsed.startTime;
+  STATE.elapsedBefore = parsed.elapsedBefore;
+  STATE.gameStatus = parsed.gameStatus;
+  STATE.validMoves = parsed.validMoves;
+  STATE.assistsLeft = parsed.assistsLeft;
+  STATE.history = parsed.history;
+  STATE.selected = [];
+  saveState(STATE);
+  return true;
 }
 
 // grid: [],

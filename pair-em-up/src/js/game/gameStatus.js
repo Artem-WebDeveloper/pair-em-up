@@ -1,9 +1,15 @@
-import { STATE } from '../config.js';
+import {
+  STATE,
+  COLS,
+  MAX_GRID_ROWS,
+  GOAL_SCORE,
+  saveState,
+} from '../config.js';
 
 export function checkGameStatus() {
   if (STATE.gameStatus !== 'playing') return;
 
-  if (STATE.score >= 100) {
+  if (STATE.score >= GOAL_SCORE) {
     STATE.gameStatus = 'won';
     saveState(STATE);
     // renderGameScreen('win');
@@ -11,16 +17,18 @@ export function checkGameStatus() {
     return;
   }
 
+  const noMoves = STATE.validMoves === 0;
+
   const noAssists =
-    STATE.assistsLeft.validMoves === 0 &&
     STATE.assistsLeft.addNumbers === 0 &&
     STATE.assistsLeft.shuffle === 0 &&
-    STATE.assistsLeft.eraser === 0;
+    STATE.assistsLeft.eraser === 0 &&
+    STATE.assistsLeft.revert === 0;
 
-  if (STATE.grid.length / 9 >= 50 || noAssists) {
+  if (STATE.grid.length / COLS >= MAX_GRID_ROWS || (noAssists && noMoves)) {
     STATE.gameStatus = 'lost';
     saveState(STATE);
-    renderGameScreen('lose');
+
     // renderGameScreen('lose');
     alert('U LOST!');
     return;

@@ -5,8 +5,12 @@ import {
   handlerAddNumbers,
   handlerShuffle,
   handleEraser,
+  handleRevert,
+  handlerSaveGame,
+  handlerContinueGame,
   updateValidMoves,
 } from '../game/logic.js';
+import { checkGameStatus } from '../game/gameStatus.js';
 import { getElapsedSeconds, formatTimer } from '../game/timer.js';
 
 export default function () {
@@ -38,14 +42,10 @@ function createGameInfo(score = 0, targetScore = 100) {
 
 function createAssists(state = {}) {
   updateValidMoves();
+  checkGameStatus();
+  const { validMoves } = state;
   const { assistsLeft = {} } = state;
-  const {
-    validMoves,
-    revert = 1,
-    addNumbers = 10,
-    shuffle = 5,
-    eraser = 5,
-  } = assistsLeft;
+  const { revert = 1, addNumbers = 10, shuffle = 5, eraser = 5 } = assistsLeft;
 
   const assistsEl = ui.createEl('div', 'game__assists-container');
   const assistsTitle = ui.createEl('h3', 'game__interface-title', 'Assists');
@@ -97,6 +97,7 @@ function createAssists(state = {}) {
   btnAddNumbers.addEventListener('click', () => handlerAddNumbers(STATE.mode));
   btnShuffle.addEventListener('click', handlerShuffle);
   btnEraser.addEventListener('click', () => handleEraser(STATE.selected[0]));
+  btnRevert.addEventListener('click', handleRevert);
 
   assistsBtnsContainer.append(
     validMovesEl,
@@ -130,6 +131,9 @@ function createControls() {
     null,
     'continue-btn'
   );
+
+  btnContinue.disabled = !(localStorage.getItem('savedGame') !== null);
+
   const btnSettings = ui.createEl(
     'button',
     'game__btn',
@@ -139,6 +143,10 @@ function createControls() {
   );
 
   btnReset.addEventListener('click', () => handlerResetCurGame(STATE.mode));
+  btnSave.addEventListener('click', handlerSaveGame);
+  btnContinue.addEventListener('click', handlerContinueGame);
+
+  // btnSettings.addEventListener('click', )
 
   controlsBtnsContainer.append(btnReset, btnSave, btnContinue, btnSettings);
   controls.append(controlsTitle, controlsBtnsContainer);
@@ -155,4 +163,9 @@ export function updateScoreDisplay(score) {
   const scoreCurEl = document.querySelector('.game__score--cur');
   if (!scoreCurEl) return;
   scoreCurEl.textContent = score;
+}
+
+export function updateVisibleRevertBtn(state) {
+  const btnRevert = document.getElementById('revert-btn');
+  if (state.assistsLeft.revert !== 0) btnRevert.disabled = false;
 }

@@ -2,6 +2,8 @@ import {
   STATE,
   saveState,
   resetState,
+  saveGame,
+  loadGame,
   DOUBLE_5_SCORE,
   SUM_10_SCORE,
   IDENT_PAIR_SCORE,
@@ -12,8 +14,10 @@ import renderGameScreen from '../view/renderGameScreen.js';
 import {
   updateValidMovesDisplay,
   updateScoreDisplay,
+  updateVisibleRevertBtn,
 } from '../view/createGameInterface.js';
 import renderCells from '../view/renderCells.js';
+import { checkGameStatus } from './gameStatus.js';
 
 export function handleCellClick(e, container) {
   const selected = STATE.selected;
@@ -39,16 +43,23 @@ export function handleCellClick(e, container) {
     console.log(checkPair(selected));
 
     if (checkPair(selected)) {
+      updateHistory();
+
       const indices = selected.map(el => +el.dataset.index);
       STATE.grid.forEach((_, i, arr) => {
         if (indices.includes(i)) arr[i] = null;
       });
 
       STATE.score += getPairScore(selected);
+      STATE.assistsLeft.revert = 1;
+      updateVisibleRevertBtn(STATE);
+
+      console.log('revert', STATE.assistsLeft.revert);
 
       updateScoreDisplay(STATE.score);
       updateValidMoves();
-      updateValidMovesDisplay(STATE.assistsLeft.validMoves);
+      updateValidMovesDisplay(STATE.validMoves);
+      checkGameStatus();
       saveState(STATE);
       selected.forEach(cell => cell.classList.add('game__cell--success'));
 
@@ -144,16 +155,33 @@ function countValidMoves(grid) {
 }
 
 export function updateValidMoves() {
-  STATE.assistsLeft.validMoves = countValidMoves(STATE.grid);
+  STATE.validMoves = countValidMoves(STATE.grid);
+}
+
+function updateHistory() {
+  STATE.history = JSON.parse(
+    JSON.stringify({
+      grid: STATE.grid,
+      score: STATE.score,
+      validMoves: STATE.validMoves,
+      elapsedBefore: STATE.elapsedBefore,
+      assistsLeft: STATE.assistsLeft,
+      gameStatus: STATE.gameStatus,
+      mode: STATE.mode,
+      startTime: STATE.startTime,
+    })
+  );
 }
 
 // *ASSISTS*
 export function handlerAddNumbers(mode) {
-  if (STATE.grid.length / 9 >= 50) {
+  /*  if (STATE.grid.length / 9 >= 50) {
     alert('YOU LOSE!');
     return;
-  }
+  } */
   if (STATE.assistsLeft.addNumbers > 0) {
+    updateHistory();
+
     STATE.assistsLeft.addNumbers--;
 
     const addNumbers = STATE['grid'].filter(num => num !== null);
@@ -164,6 +192,8 @@ export function handlerAddNumbers(mode) {
     };
 
     STATE.grid.push(...modes[mode]);
+
+    STATE.assistsLeft.revert = 1;
     saveState(STATE);
     renderGameScreen(mode);
   }
@@ -171,21 +201,49 @@ export function handlerAddNumbers(mode) {
 
 export function handlerShuffle() {
   if (STATE.assistsLeft.shuffle <= 0) return;
+
+  updateHistory();
+
   STATE.assistsLeft.shuffle--;
 
   const newGrid = shuffleArray(STATE.grid);
   STATE.grid.length = 0;
   STATE.grid.push(...newGrid);
+
+  STATE.assistsLeft.revert = 1;
   saveState(STATE);
   renderGameScreen(STATE.mode);
 }
 
 export function handleEraser(elem) {
   if (!elem || STATE.assistsLeft.eraser <= 0) return;
+
+  updateHistory();
   STATE.assistsLeft.eraser--;
 
   const index = +elem.dataset.index;
   STATE.grid[index] = null;
+
+  STATE.assistsLeft.revert = 1;
+  saveState(STATE);
+  renderGameScreen(STATE.mode);
+}
+
+export function handleRevert() {
+  const { revert } = STATE.assistsLeft;
+  console.log(revert);
+  if (STATE.history === null || revert <= 0) return;
+
+  STATE.grid = STATE.history.grid;
+  STATE.score = STATE.history.score;
+  STATE.validMoves = STATE.history.validMoves;
+  STATE.elapsedBefore = STATE.history.elapsedBefore;
+  STATE.assistsLeft = STATE.history.assistsLeft;
+  STATE.gameStatus = STATE.history.gameStatus;
+
+  STATE.assistsLeft.revert = 0;
+  STATE.history = null;
+
   saveState(STATE);
   renderGameScreen(STATE.mode);
 }
@@ -194,4 +252,14 @@ export function handleEraser(elem) {
 export function handlerResetCurGame(mode) {
   resetState();
   mode ? renderGameScreen(mode) : renderGameScreen('startscreen');
+}
+
+export function handlerSaveGame() {
+  saveGame();
+  console.log('Game is saved');
+  renderGameScreen(STATE.mode);
+}
+
+export function handlerContinueGame() {
+  if (loadGame()) renderGameScreen(STATE.mode);
 }
