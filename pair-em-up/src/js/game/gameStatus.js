@@ -14,7 +14,7 @@ export function checkGameStatus() {
   if (STATE.score >= GOAL_SCORE) {
     STATE.gameStatus = 'won';
     saveState(STATE);
-    renderGameEndScreen();
+    queueMicrotask(() => renderGameEndScreen());
 
     return;
   }
@@ -31,7 +31,7 @@ export function checkGameStatus() {
     STATE.gameStatus = 'lost';
     saveState(STATE);
 
-    renderGameEndScreen();
+    queueMicrotask(() => renderGameEndScreen());
 
     return;
   }

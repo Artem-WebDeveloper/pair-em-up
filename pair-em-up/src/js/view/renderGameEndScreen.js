@@ -54,7 +54,11 @@ function createGameEndScreen(state, btnRes = null) {
   });
 
   //! RESET STATE TO DO!!!
-  btnStartScreen.addEventListener('click', renderStartScreen);
+  btnStartScreen.addEventListener('click', () => {
+    deleteSavedGame();
+    handlerResetCurGame();
+    renderStartScreen();
+  });
   // btnShowRes.addEventListener('click', () => {});
 
   btnsContainer.append(btnStartScreen, btnRestart, btnShowRes);

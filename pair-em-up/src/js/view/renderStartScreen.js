@@ -1,10 +1,16 @@
 import ui from './UI.js';
 import renderGameScreen from './renderGameScreen.js';
-import { STATE, saveState } from '../config.js';
+import { STATE, deleteSavedGame } from '../config.js';
 import { stopTimer } from '../game/timer.js';
+import { handlerResetCurGame } from '../game/logic.js';
 
 export default function () {
   stopTimer();
+
+  if (STATE.gameStatus !== 'playing') {
+    handlerResetCurGame();
+    deleteSavedGame();
+  }
 
   const container = document.querySelector('.container');
   const startEl = ui.createEl('div', 'start');
