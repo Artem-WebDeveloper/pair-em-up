@@ -15,9 +15,7 @@ export default function (mode) {
   if (STATE.mode && STATE.mode !== mode) {
     deleteSavedGame();
     resetState();
-    // if (!STATE.startTime) STATE.startTime = Date.now();
   }
-  // if (!STATE.startTime) STATE.startTime = Date.now();
 
   STATE.mode = mode;
   STATE.selected.length = 0;

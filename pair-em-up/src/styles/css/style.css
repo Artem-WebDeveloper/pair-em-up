@@ -279,6 +279,41 @@ button {
   width: 100%;
 }
 
+.results {
+  min-width: 60rem;
+  min-height: 16rem;
+}
+.results--empty {
+  font-size: 2.2rem;
+}
+.results--empty p {
+  font-size: 2.2rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+.results__title {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.results__row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  place-content: center;
+  text-align: center;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.results__row:last-child {
+  border-bottom: none;
+}
+.results__row--header {
+  font-size: 2.1rem;
+  font-weight: 600;
+  font-weight: 600;
+  background-color: rgba(125, 20, 205, 0.1);
+}
+
 .switcher {
   display: inline;
   height: 2.9rem;

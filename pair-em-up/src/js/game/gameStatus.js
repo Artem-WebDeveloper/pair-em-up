@@ -4,6 +4,7 @@ import {
   MAX_GRID_ROWS,
   GOAL_SCORE,
   saveState,
+  SaveGameHistory,
 } from '../config.js';
 
 import renderGameEndScreen from '../view/renderGameEndScreen.js';
@@ -14,6 +15,7 @@ export function checkGameStatus() {
   if (STATE.score >= GOAL_SCORE) {
     STATE.gameStatus = 'won';
     saveState(STATE);
+    SaveGameHistory('won');
     queueMicrotask(() => renderGameEndScreen());
 
     return;
@@ -30,6 +32,7 @@ export function checkGameStatus() {
   if (STATE.grid.length / COLS >= MAX_GRID_ROWS || (noAssists && noMoves)) {
     STATE.gameStatus = 'lost';
     saveState(STATE);
+    SaveGameHistory('lost');
 
     queueMicrotask(() => renderGameEndScreen());
 

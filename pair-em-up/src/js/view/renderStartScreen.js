@@ -2,7 +2,11 @@ import ui from './UI.js';
 import renderGameScreen from './renderGameScreen.js';
 import { STATE, deleteSavedGame } from '../config.js';
 import { stopTimer } from '../game/timer.js';
-import { handlerResetCurGame, handlerSettingsOpen } from '../game/logic.js';
+import {
+  handlerResetCurGame,
+  handlerSettingsOpen,
+  handlerResultsOpen,
+} from '../game/logic.js';
 import buttonShowRes from './buttonShowRes.js';
 import buttonShowSettings from './buttonShowSettings.js';
 
@@ -40,7 +44,9 @@ export default function () {
 
   const btnResults = buttonShowRes();
   const btnSettings = buttonShowSettings();
+
   btnSettings.addEventListener('click', handlerSettingsOpen);
+  btnResults.addEventListener('click', handlerResultsOpen);
 
   bottom.append(btnResults, copyright, btnSettings);
   startEl.append(startTitle, modes, bottom);

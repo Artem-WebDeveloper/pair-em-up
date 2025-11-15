@@ -1,5 +1,10 @@
 import { shuffleArray, getChaoticGrid } from './helpers.js';
-import { stopTimer, startTimer } from './game/timer.js';
+import {
+  stopTimer,
+  startTimer,
+  getElapsedSeconds,
+  formatTimer,
+} from './game/timer.js';
 
 export const DEFAULT_STATE = {
   mode: 'startscreen',
@@ -9,6 +14,7 @@ export const DEFAULT_STATE = {
   startTime: null,
   elapsedBefore: 0,
   gameStatus: 'playing',
+  movesCount: 0,
   validMoves: 0,
   assistsLeft: {
     revert: 0,
@@ -32,6 +38,7 @@ export const GOAL_SCORE = 3;
 export const DOUBLE_5_SCORE = 3;
 export const SUM_10_SCORE = 2;
 export const IDENT_PAIR_SCORE = 1;
+const LAST_RECORDS = 5;
 
 export function getModeGrid(mode) {
   switch (mode) {
@@ -100,14 +107,28 @@ export function deleteSavedGame() {
   localStorage.removeItem('savedGame');
 }
 
-// grid: [],
-//   score: 0,
-//   timer: 0,
-//   mode: 'classic',
-//   undoHistory: [],
-//   assistUses: {
-//     hints: 0,
-//     revert: 0,
-//     addNumbers: 0,
-//     shuffle: 0,
-//     eraser: 0,
+export function getGameHistory() {
+  const history = localStorage.getItem('gameHistory');
+  return history ? JSON.parse(history) : [];
+}
+
+export function SaveGameHistory(result) {
+  const time = getElapsedSeconds();
+  const history = getGameHistory();
+
+  const entry = {
+    mode: STATE.mode,
+    score: STATE.score,
+    result: result,
+    time,
+    movesCount: STATE.movesCount,
+    date: new Date().toLocaleDateString('ru-RU'),
+  };
+
+  history.unshift(entry);
+
+  const limited = history.slice(0, LAST_RECORDS);
+  limited.sort((a, b) => a.time - b.time);
+
+  localStorage.setItem('gameHistory', JSON.stringify(limited));
+}

@@ -1,7 +1,7 @@
 import { STATE, GOAL_SCORE, deleteSavedGame } from '../config.js';
 import ui from './UI.js';
 import { getElapsedSeconds, formatTimer } from '../game/timer.js';
-import { handlerResetCurGame } from '../game/logic.js';
+import { handlerResetCurGame, handlerResultsOpen } from '../game/logic.js';
 import renderStartScreen from './renderStartScreen.js';
 import buttonResults from './buttonShowRes.js';
 
@@ -57,7 +57,7 @@ function createGameEndScreen(state) {
     handlerResetCurGame();
     renderStartScreen();
   });
-  // btnShowRes.addEventListener('click', () => {});
+  btnShowRes.addEventListener('click', handlerResultsOpen);
 
   btnsContainer.append(btnStartScreen, btnRestart, btnShowRes);
   endScreen.append(title, text, score, time, btnsContainer);

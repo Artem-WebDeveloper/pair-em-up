@@ -12,6 +12,7 @@ import { getChaoticGrid, shuffleArray } from '../helpers.js';
 import ui from '../view/UI.js';
 import renderGameScreen from '../view/renderGameScreen.js';
 import createSettingsScreen from '../view/createSettingsScreen.js';
+import createResultsScreen from '../view/createResultsScreen.js';
 import {
   updateValidMovesDisplay,
   updateScoreDisplay,
@@ -20,7 +21,6 @@ import {
 import renderCells from '../view/renderCells.js';
 import popup from '../view/Popup.js';
 import { checkGameStatus } from './gameStatus.js';
-import { startTimer } from './timer.js';
 
 export function handleCellClick(e, container) {
   const selected = STATE.selected;
@@ -47,6 +47,8 @@ export function handleCellClick(e, container) {
 
     if (checkPair(selected)) {
       updateHistory();
+
+      STATE.movesCount++;
 
       const indices = selected.map(el => +el.dataset.index);
       STATE.grid.forEach((_, i, arr) => {
@@ -178,10 +180,6 @@ function updateHistory() {
 
 // *ASSISTS*
 export function handlerAddNumbers(mode) {
-  /*  if (STATE.grid.length / 9 >= 50) {
-    alert('YOU LOSE!');
-    return;
-  } */
   if (STATE.assistsLeft.addNumbers > 0) {
     updateHistory();
 
@@ -240,7 +238,6 @@ export function handleRevert() {
   STATE.grid = STATE.history.grid;
   STATE.score = STATE.history.score;
   STATE.validMoves = STATE.history.validMoves;
-  // STATE.elapsedBefore = STATE.history.elapsedBefore;
   STATE.assistsLeft = STATE.history.assistsLeft;
   STATE.gameStatus = STATE.history.gameStatus;
 
@@ -267,15 +264,15 @@ export function handlerContinueGame() {
   if (!loadGame()) return;
 
   renderGameScreen(STATE.mode);
-  // startTimer();
 }
 
+// *GENERAL HANDLERS*
 export function handlerSettingsOpen() {
   const settings = createSettingsScreen();
   popup.open(settings);
 }
 
 export function handlerResultsOpen() {
-  // const settings = createSettingsScreen();
-  // popup.open(settings);
+  const results = createResultsScreen();
+  popup.open(results);
 }
