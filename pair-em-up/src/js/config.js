@@ -1,5 +1,5 @@
 import { shuffleArray, getChaoticGrid } from './helpers.js';
-// import { stopTimer, startTimer } from './game/timer.js';
+import { stopTimer, startTimer } from './game/timer.js';
 
 export const DEFAULT_STATE = {
   mode: 'startscreen',
@@ -57,6 +57,8 @@ export function resetState() {
 }
 
 export function saveGame() {
+  stopTimer();
+
   const stateToSave = JSON.parse(
     JSON.stringify({
       mode: STATE.mode,
@@ -71,11 +73,14 @@ export function saveGame() {
     })
   );
   localStorage.setItem('savedGame', JSON.stringify(stateToSave));
+  startTimer();
 }
 export function loadGame() {
   const savedGame = localStorage.getItem('savedGame');
   if (!savedGame) return false;
+
   const parsed = JSON.parse(savedGame);
+
   STATE.mode = parsed.mode;
   STATE.score = parsed.score;
   STATE.grid = parsed.grid;
@@ -86,6 +91,7 @@ export function loadGame() {
   STATE.assistsLeft = parsed.assistsLeft;
   STATE.history = parsed.history;
   STATE.selected = [];
+
   saveState(STATE);
   return true;
 }

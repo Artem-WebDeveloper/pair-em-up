@@ -240,7 +240,7 @@ export function handleRevert() {
   STATE.grid = STATE.history.grid;
   STATE.score = STATE.history.score;
   STATE.validMoves = STATE.history.validMoves;
-  STATE.elapsedBefore = STATE.history.elapsedBefore;
+  // STATE.elapsedBefore = STATE.history.elapsedBefore;
   STATE.assistsLeft = STATE.history.assistsLeft;
   STATE.gameStatus = STATE.history.gameStatus;
 
@@ -267,7 +267,7 @@ export function handlerContinueGame() {
   if (!loadGame()) return;
 
   renderGameScreen(STATE.mode);
-  startTimer();
+  // startTimer();
 }
 
 export function handlerSettingsOpen() {

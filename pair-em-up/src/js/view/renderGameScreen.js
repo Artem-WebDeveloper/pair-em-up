@@ -9,7 +9,7 @@ import {
 import { handleCellClick } from '../game/logic.js';
 import createGameInterface from './createGameInterface.js';
 import renderCells from './renderCells.js';
-import { startTimer } from '../game/timer.js';
+import { startTimer, stopTimer } from '../game/timer.js';
 
 export default function (mode) {
   if (STATE.mode && STATE.mode !== mode) {
@@ -17,7 +17,7 @@ export default function (mode) {
     resetState();
     // if (!STATE.startTime) STATE.startTime = Date.now();
   }
-  if (!STATE.startTime) STATE.startTime = Date.now();
+  // if (!STATE.startTime) STATE.startTime = Date.now();
 
   STATE.mode = mode;
   STATE.selected.length = 0;
@@ -32,6 +32,7 @@ export default function (mode) {
   STATE.mode = mode;
 
   container.append(createGameScreen(mode));
+  stopTimer();
   startTimer();
 }
 
