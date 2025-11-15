@@ -1,5 +1,8 @@
 :root {
   --bg-color: #252525;
+  --bg-color-game: #353535;
+  --bg-color-game: #2a2a2a;
+  // --bg-color-game: rgba(81, 80, 83, 0.938);
   --accent-1: #d6eeff;
   --shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 
@@ -17,10 +20,11 @@
 
   --shadow-color: rgba(0, 0, 0, 0.5);
 
+  --cell: rgb(19, 131, 191);
   --empty-cell: rgb(18, 117, 171);
   --succes-cell: #4caf50;
   --selected-cell: rgb(14, 92, 135);
-  --error-cell: #f44336;
+  --error-cell: #ff6f61;
 }
 
 *,
@@ -55,6 +59,11 @@ body {
   color: var(--text-color);
   padding: 5rem 3rem;
 }
+
+body:has(.popup--open) {
+  overflow: hidden;
+}
+
 ul {
   list-style: none;
 }
@@ -82,6 +91,10 @@ button {
   box-shadow: 0 0 4rem rgba(125, 20, 205, 0.09);
   border-radius: 0.8rem;
   min-height: calc(100dvh - 10rem);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  &:has(.game) {
+    background-color: var(--bg-color-game);
+  }
 }
 
 .title {

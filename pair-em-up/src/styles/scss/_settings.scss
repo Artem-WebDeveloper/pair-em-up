@@ -16,4 +16,22 @@
     justify-content: space-between;
     width: 100%;
   }
+
+  &__volume {
+    margin-top: 1.6rem;
+  }
+}
+
+.volume-slider {
+  cursor: pointer;
+  width: 73%;
+  transition: all 0.2s ease;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  transition: all 0.2s ease;
+}
+
+.volume-slider::-moz-range-thumb {
+  transition: all 0.2s ease;
 }

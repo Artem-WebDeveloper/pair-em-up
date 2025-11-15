@@ -1,6 +1,7 @@
 import ui from './UI.js';
 import createCheckbox from './createCheckbox.js';
-import createPopup from './Popup.js';
+import { SETTINGS, saveSettings } from '../settings.js';
+import { updateVolume } from '../game/sound.js';
 
 export default function () {
   const elem = ui.createEl('div', 'settings');
@@ -18,7 +19,16 @@ export default function () {
     'Cell selection/deselection',
     'sound-cell-selection'
   );
-  audio.append(audioTitle, bgMusic, pairMatching, pairInvalid, cellSelection);
+
+  const volume = createVolumeControl();
+  audio.append(
+    audioTitle,
+    bgMusic,
+    pairMatching,
+    pairInvalid,
+    cellSelection,
+    volume
+  );
 
   const visual = ui.createEl('div', 'settings__section');
   const visualTitle = ui.createEl('h2', 'settings__title', 'Visual');
@@ -39,4 +49,27 @@ function settingEl(text, idCheck) {
 
   elem.append(name, checkbox);
   return elem;
+}
+
+function createVolumeControl() {
+  const wrapper = ui.createEl('div', 'settings__setting settings__volume');
+  const label = ui.createEl('p', null, 'Volume');
+
+  const rangeInput = ui.createEl('input', 'volume-slider');
+  rangeInput.type = 'range';
+  rangeInput.min = '0';
+  rangeInput.max = '100';
+  rangeInput.value = SETTINGS.volume * 100;
+
+  rangeInput.addEventListener('input', e => {
+    const volume = e.target.value / 100;
+
+    SETTINGS.volume = volume;
+    saveSettings(SETTINGS);
+    updateVolume(volume);
+  });
+
+  wrapper.append(label, rangeInput);
+
+  return wrapper;
 }

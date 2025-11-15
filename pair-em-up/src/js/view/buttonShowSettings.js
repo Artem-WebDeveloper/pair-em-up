@@ -4,7 +4,7 @@ export default function createBtnSettings() {
   const button = ui.createEl(
     'button',
     'game__btn',
-    'Settings',
+    '⚙️ Settings',
     null,
     'settings-btn'
   );

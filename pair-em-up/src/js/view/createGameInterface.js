@@ -32,7 +32,7 @@ function createGameInfo(score = 0, targetScore = 100) {
   const scoreEl = ui.createEl('div', 'game__score');
   const curScore = ui.createEl('span', 'game__score--cur', score);
   const goalScore = ui.createEl('span', 'game__score--goal', targetScore);
-  scoreEl.append(curScore, '/', goalScore);
+  scoreEl.append('Score: ', curScore, '/', goalScore);
 
   const elapsed = getElapsedSeconds();
   const formattedTime = formatTimer(elapsed);
@@ -65,7 +65,7 @@ function createAssists(state = {}) {
   const btnRevert = ui.createEl(
     'button',
     'game__btn',
-    `Revert`,
+    `↩️ Revert`,
     null,
     'revert-btn'
   );
@@ -73,7 +73,7 @@ function createAssists(state = {}) {
   const btnAddNumbers = ui.createEl(
     'button',
     'game__btn',
-    `Add Numbers ${addNumbers}`,
+    `🔢 Add Numbers ${addNumbers}`,
     null,
     'add-numbers-btn'
   );
@@ -81,7 +81,7 @@ function createAssists(state = {}) {
   const btnShuffle = ui.createEl(
     'button',
     'game__btn',
-    `Shuffle ${shuffle}`,
+    `🎲 Shuffle ${shuffle}`,
     null,
     'shuffle-btn'
   );
@@ -90,7 +90,7 @@ function createAssists(state = {}) {
   const btnEraser = ui.createEl(
     'button',
     'game__btn',
-    `Eraser ${eraser}`,
+    `🧹 Eraser ${eraser}`,
     null,
     'eraser-btn'
   );
@@ -121,15 +121,21 @@ function createControls() {
   const btnReset = ui.createEl(
     'button',
     'game__btn',
-    'Reset',
+    '🔄 Reset',
     null,
     'reset-btn'
   );
-  const btnSave = ui.createEl('button', 'game__btn', 'Save', null, 'save-btn');
+  const btnSave = ui.createEl(
+    'button',
+    'game__btn',
+    '💾 Save',
+    null,
+    'save-btn'
+  );
   const btnContinue = ui.createEl(
     'button',
     'game__btn',
-    'Continue',
+    '▶️ Continue',
     null,
     'continue-btn'
   );

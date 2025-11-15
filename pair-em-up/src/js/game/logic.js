@@ -21,6 +21,7 @@ import {
 import renderCells from '../view/renderCells.js';
 import popup from '../view/Popup.js';
 import { checkGameStatus } from './gameStatus.js';
+import { playSound } from './sound.js';
 
 export function handleCellClick(e, container) {
   const selected = STATE.selected;
@@ -33,6 +34,8 @@ export function handleCellClick(e, container) {
     selected.push(click);
     console.log(STATE);
     click.classList.toggle('game__cell--selected');
+
+    playSound('cellClick');
   }
 
   if (selected.length === 1 && STATE.assistsLeft.eraser !== 0)
@@ -46,6 +49,7 @@ export function handleCellClick(e, container) {
     console.log(checkPair(selected));
 
     if (checkPair(selected)) {
+      playSound('pairMatch');
       updateHistory();
 
       STATE.movesCount++;
@@ -73,6 +77,7 @@ export function handleCellClick(e, container) {
         renderCells(STATE.grid, container);
       }, 700);
     } else {
+      playSound('pairInvalid');
       const copySelected = [...selected];
       copySelected.forEach(cell => cell.classList.add('game__cell--error'));
       setTimeout(() => {
