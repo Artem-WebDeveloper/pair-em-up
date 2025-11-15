@@ -11,12 +11,14 @@ import {
 import { getChaoticGrid, shuffleArray } from '../helpers.js';
 import ui from '../view/UI.js';
 import renderGameScreen from '../view/renderGameScreen.js';
+import createSettingsScreen from '../view/createSettingsScreen.js';
 import {
   updateValidMovesDisplay,
   updateScoreDisplay,
   updateVisibleRevertBtn,
 } from '../view/createGameInterface.js';
 import renderCells from '../view/renderCells.js';
+import popup from '../view/Popup.js';
 import { checkGameStatus } from './gameStatus.js';
 import { startTimer } from './timer.js';
 
@@ -266,4 +268,14 @@ export function handlerContinueGame() {
 
   renderGameScreen(STATE.mode);
   startTimer();
+}
+
+export function handlerSettingsOpen() {
+  const settings = createSettingsScreen();
+  popup.open(settings);
+}
+
+export function handlerResultsOpen() {
+  // const settings = createSettingsScreen();
+  // popup.open(settings);
 }

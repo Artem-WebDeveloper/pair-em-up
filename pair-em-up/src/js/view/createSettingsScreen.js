@@ -1,5 +1,6 @@
 import ui from './UI.js';
 import createCheckbox from './createCheckbox.js';
+import createPopup from './Popup.js';
 
 export default function () {
   const elem = ui.createEl('div', 'settings');
@@ -13,7 +14,6 @@ export default function () {
   const bgMusic = settingEl('Background music', 'bg-music');
   const pairInvalid = settingEl('Invalid pair attempts', 'sound-invalid-pair');
 
-  // Cell selection/deselection
   const cellSelection = settingEl(
     'Cell selection/deselection',
     'sound-cell-selection'
@@ -28,6 +28,7 @@ export default function () {
   visual.append(visualTitle, theme);
 
   elem.append(audio, visual);
+
   return elem;
 }
 

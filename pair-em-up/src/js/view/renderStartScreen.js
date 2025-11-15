@@ -2,7 +2,9 @@ import ui from './UI.js';
 import renderGameScreen from './renderGameScreen.js';
 import { STATE, deleteSavedGame } from '../config.js';
 import { stopTimer } from '../game/timer.js';
-import { handlerResetCurGame } from '../game/logic.js';
+import { handlerResetCurGame, handlerSettingsOpen } from '../game/logic.js';
+import buttonShowRes from './buttonShowRes.js';
+import buttonShowSettings from './buttonShowSettings.js';
 
 export default function () {
   stopTimer();
@@ -15,6 +17,7 @@ export default function () {
   const container = document.querySelector('.container');
   const startEl = ui.createEl('div', 'start');
   const modes = ui.createEl('ul', 'start__modes');
+  const bottom = ui.createEl('div', 'start__bottom');
   const modeClassic = createModeCard(
     '🎯 Classic Mode',
     'A balanced mode with a clear and predictable layout. Perfect for players who like a steady challenge and strategic planning',
@@ -35,7 +38,12 @@ export default function () {
 
   modes.append(modeRandom, modeClassic, modeChaotic);
 
-  startEl.append(startTitle, modes, copyright);
+  const btnResults = buttonShowRes();
+  const btnSettings = buttonShowSettings();
+  btnSettings.addEventListener('click', handlerSettingsOpen);
+
+  bottom.append(btnResults, copyright, btnSettings);
+  startEl.append(startTitle, modes, bottom);
 
   ui.clearContainer(container);
   container.append(startEl);

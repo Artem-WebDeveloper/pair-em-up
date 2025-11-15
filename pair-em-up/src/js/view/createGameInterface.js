@@ -1,13 +1,15 @@
 import { STATE, GOAL_SCORE, saveState } from '../config.js';
 import ui from './UI.js';
+import createBtnSettings from './buttonShowSettings.js';
 import {
   handlerResetCurGame,
+  handlerSettingsOpen,
+  handlerSaveGame,
+  handlerContinueGame,
   handlerAddNumbers,
   handlerShuffle,
   handleEraser,
   handleRevert,
-  handlerSaveGame,
-  handlerContinueGame,
   updateValidMoves,
 } from '../game/logic.js';
 import { checkGameStatus } from '../game/gameStatus.js';
@@ -134,17 +136,12 @@ function createControls() {
 
   btnContinue.disabled = !(localStorage.getItem('savedGame') !== null);
 
-  const btnSettings = ui.createEl(
-    'button',
-    'game__btn',
-    'Settings',
-    null,
-    'settings-btn'
-  );
+  const btnSettings = createBtnSettings();
 
   btnReset.addEventListener('click', () => handlerResetCurGame(STATE.mode));
   btnSave.addEventListener('click', handlerSaveGame);
   btnContinue.addEventListener('click', handlerContinueGame);
+  btnSettings.addEventListener('click', handlerSettingsOpen);
 
   // btnSettings.addEventListener('click', )
 

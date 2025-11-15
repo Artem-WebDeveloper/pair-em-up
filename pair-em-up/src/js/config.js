@@ -1,4 +1,5 @@
 import { shuffleArray, getChaoticGrid } from './helpers.js';
+// import { stopTimer, startTimer } from './game/timer.js';
 
 export const DEFAULT_STATE = {
   mode: 'startscreen',

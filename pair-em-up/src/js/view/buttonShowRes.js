@@ -1,8 +1,6 @@
 import ui from './UI.js';
 
-function createBtn() {
+export default function createBtnRes() {
   const button = ui.createEl('button', 'btn-show-res', 'Recordes Info');
   return button;
 }
-
-export default createBtn();

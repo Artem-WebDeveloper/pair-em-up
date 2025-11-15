@@ -1,21 +1,19 @@
 import { STATE, GOAL_SCORE, deleteSavedGame } from '../config.js';
 import ui from './UI.js';
-import btnShowRes from './buttonShowRes.js';
 import { getElapsedSeconds, formatTimer } from '../game/timer.js';
 import { handlerResetCurGame } from '../game/logic.js';
 import renderStartScreen from './renderStartScreen.js';
+import buttonResults from './buttonShowRes.js';
 
 export default function () {
   const container = document.querySelector('.container');
   ui.clearContainer(container);
 
-  const endScreen = createGameEndScreen(STATE, btnShowRes);
+  const endScreen = createGameEndScreen(STATE);
   container.append(endScreen);
 }
 
-function createGameEndScreen(state, btnRes = null) {
-  const btnShowRes = btnRes ? btnRes : null;
-
+function createGameEndScreen(state) {
   const endScreen = ui.createEl('div', 'end-screen');
   const title = ui.createEl(
     'h2',
@@ -47,13 +45,13 @@ function createGameEndScreen(state, btnRes = null) {
 
   const btnRestart = ui.createEl('button', 'btn', `Restart`);
   const btnStartScreen = ui.createEl('button', 'btn', `Main Screen`);
+  const btnShowRes = buttonResults();
 
   btnRestart.addEventListener('click', () => {
     deleteSavedGame();
     handlerResetCurGame(state.mode);
   });
 
-  //! RESET STATE TO DO!!!
   btnStartScreen.addEventListener('click', () => {
     deleteSavedGame();
     handlerResetCurGame();

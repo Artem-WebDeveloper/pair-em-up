@@ -1,6 +1,7 @@
 import ui from './UI.js';
 import renderStartScreen from './renderStartScreen.js';
-import checkbox from './createCheckbox.js';
+import createSettingsScreen from './createSettingsScreen.js';
+import popup from './Popup.js';
 
 import settings from './createSettingsScreen.js';
 export default function () {
@@ -8,10 +9,15 @@ export default function () {
   const bgGrid = ui.createEl('div', 'bg-grid');
   bg.append(bgGrid);
 
+  const popupRoot = ui.createEl('div');
+  popupRoot.id = 'popup-root';
+  popup.mount(popupRoot);
+
   const container = ui.createEl('div', 'container');
 
   document.body.append(bg);
   document.body.append(container);
-  container.append(settings());
-  // renderStartScreen();
+  document.body.append(popupRoot);
+
+  renderStartScreen();
 }
