@@ -1,6 +1,11 @@
 import renderPage from './view/renderPage.js';
 import { STATE, DEFAULT_STATE, saveState } from './config.js';
-import { SETTINGS, DEFAULT_SETTINGS, saveSettings } from './settings.js';
+import {
+  SETTINGS,
+  DEFAULT_SETTINGS,
+  saveSettings,
+  toggleDarkTheme,
+} from './settings.js';
 
 export default function app() {
   loadSettings();
@@ -30,5 +35,6 @@ function loadSettings() {
   }
 
   SETTINGS.bgMusic = false;
+  toggleDarkTheme();
   saveSettings(SETTINGS);
 }

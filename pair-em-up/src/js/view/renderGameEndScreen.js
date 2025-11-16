@@ -43,8 +43,8 @@ function createGameEndScreen(state) {
 
   const btnsContainer = ui.createEl('div', 'end-screen__btns');
 
-  const btnRestart = ui.createEl('button', 'btn', `Restart`);
-  const btnStartScreen = ui.createEl('button', 'btn', `Main Screen`);
+  const btnRestart = ui.createEl('button', 'game__btn', `Restart`);
+  const btnStartScreen = ui.createEl('button', 'game__btn', `Main Screen`);
   const btnShowRes = buttonResults();
 
   btnRestart.addEventListener('click', () => {

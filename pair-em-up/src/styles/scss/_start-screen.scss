@@ -4,7 +4,7 @@
   // min-height: 0;
   overflow: auto;
   flex: 1;
-  gap: 6rem;
+  gap: 5rem;
   & > :last-child {
     margin-top: auto;
     // align-self: center;
@@ -25,14 +25,145 @@
   }
 
   &__mode-card {
-    padding: 2rem 3rem;
-    width: 30rem;
-    border: 1px solid #fff;
+    user-select: none;
+    cursor: pointer;
+    padding: 2rem 4rem;
+    width: 34rem;
+    // border: 1px solid #fff;
+    background-color: #2a2a2a;
+    border-radius: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    line-height: 1.6;
+
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(111, 177, 252, 0.2),
+        transparent
+      );
+      transition: left 0.5s ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        box-shadow: 0 0.8rem 2.5rem rgba(111, 177, 252, 0.4);
+        transform: translateY(-2px);
+        animation: glow-pulse 3s ease-in-out infinite;
+      }
+
+      &:hover::before {
+        left: 100%;
+      }
+    }
 
     & > :last-child {
       display: block;
       margin-top: auto;
       justify-self: center;
     }
+  }
+
+  &__btn {
+    padding: 1rem 2rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+
+    background: #4d4d4d;
+    color: #f0f0f0;
+    border: 2px solid #6fb1fc;
+
+    &--active {
+      background: #6fb1fc;
+      color: white;
+      box-shadow: 0 0 0 0 rgba(111, 177, 252, 0.7);
+      animation: pulse-border 3s infinite;
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          transform: scale(1.05);
+          background: #5a9de0;
+        }
+      }
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: #303030;
+        border-color: #6fb1fc;
+      }
+    }
+  }
+}
+
+.author-link {
+  font-size: 1.9rem;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 0.8rem;
+  color: var(--primary-color);
+  transition: color 0.3s ease;
+
+  &:visited,
+  &:active {
+    color: var(--primary-color);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--primary-hover-color);
+
+      & .author-link__icon {
+        filter: brightness(1.3);
+        opacity: 1;
+      }
+    }
+  }
+
+  &__icon {
+    width: 4.2rem;
+    height: 4.2rem;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0.8rem 2.5rem rgba(111, 177, 252, 0.3);
+  }
+  50% {
+    box-shadow: 0 0.8rem 3.5rem rgba(111, 177, 252, 0.45);
+  }
+}
+
+@keyframes pulse-border {
+  0% {
+    box-shadow: 0 0 0 0 rgba(111, 177, 252, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(111, 177, 252, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(111, 177, 252, 0);
   }
 }

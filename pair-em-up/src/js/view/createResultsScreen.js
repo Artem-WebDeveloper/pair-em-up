@@ -49,7 +49,7 @@ function renderEntry(record) {
   const resultEl = ui.createEl(
     'span',
     null,
-    result === 'won' ? '⭐ Victory' : '💔 Defeat'
+    result === 'won' ? '⭐ Won' : '💔 Lost'
   );
   const dateEl = ui.createEl('span', null, date);
 

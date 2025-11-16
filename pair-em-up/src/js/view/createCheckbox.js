@@ -1,4 +1,4 @@
-import { SETTINGS, saveSettings } from '../settings.js';
+import { SETTINGS, saveSettings, toggleDarkTheme } from '../settings.js';
 import ui from './UI.js';
 import { toggleBgMusic } from '../game/sound.js';
 
@@ -32,6 +32,10 @@ function createCheckbox(id) {
 
     if (settingKey === 'bgMusic') {
       toggleBgMusic();
+    }
+
+    if (settingKey === 'darkTheme') {
+      toggleDarkTheme();
     }
   });
 

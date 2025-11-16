@@ -1,0 +1,24 @@
+.end-screen {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+
+  gap: 2rem;
+  &__title {
+    font-size: 3.4rem;
+    margin-bottom: 2rem;
+  }
+
+  &__text {
+    font-size: 2.2rem;
+  }
+
+  &__btns {
+    margin-top: 3rem;
+    justify-self: end;
+    display: flex;
+    gap: 4rem;
+  }
+}

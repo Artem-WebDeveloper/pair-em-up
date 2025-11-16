@@ -24,7 +24,7 @@ export default function () {
   const bottom = ui.createEl('div', 'start__bottom');
   const modeClassic = createModeCard(
     '🎯 Classic Mode',
-    'A balanced mode with a clear and predictable layout. Perfect for players who like a steady challenge and strategic planning',
+    'A balanced mode with a clear and predictable layout. Perfect for players who like a steady challenge and strategic planning.',
     'classic'
   );
   const modeRandom = createModeCard(
@@ -37,7 +37,7 @@ export default function () {
     'Completely random numbers fill the grid with no restrictions. Fast-paced and intense — only the sharpest strategies will succeed.',
     'chaotic'
   );
-  const copyright = createCopyright();
+  const copyright = createAuthor();
   const startTitle = ui.createEl('h1', 'title', 'Pair Em Up');
 
   modes.append(modeRandom, modeClassic, modeChaotic);
@@ -55,24 +55,27 @@ export default function () {
   container.append(startEl);
 }
 
-function createCopyright() {
-  const el = ui.createEl('div', 'copyright');
-  const link = ui.createEl('a', 'copyright__link');
-  const img = ui.createEl('img', 'copyright__img');
-  const p = ui.createEl('p', 'copyright__author', 'Artem WebDev');
+function createAuthor() {
+  const link = ui.createEl('a', 'author-link');
+  link.href = 'https://github.com/Artem-WebDeveloper';
+  link.target = '_blank';
+  const img = ui.createEl('img', 'author-link__icon');
+  img.src = './assets/gh-icon.svg';
+  const p = ui.createEl('p', null, 'Artem WebDev');
 
   link.append(img, p);
-  el.append(link);
 
-  return el;
+  return link;
 }
 function createModeCard(title, text, mode = null) {
   const btnText = STATE.mode === mode ? 'Continue' : 'New Game';
+  const btnClass =
+    STATE.mode === mode ? 'start__btn start__btn--active' : 'start__btn';
 
   const modeCard = ui.createEl('li', 'start__mode-card');
   const modeTitle = ui.createEl('h2', 'start__mode-title', title);
   const modeDescrip = ui.createEl('p', 'start__mode-description', text);
-  const modeBtn = ui.createEl('button', 'btn', btnText);
+  const modeBtn = ui.createEl('button', btnClass, btnText);
 
   modeBtn.addEventListener('click', () => renderGameScreen(mode));
 

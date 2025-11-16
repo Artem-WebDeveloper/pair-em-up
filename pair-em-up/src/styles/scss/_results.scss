@@ -2,6 +2,12 @@
   min-width: 60rem;
   min-height: 16rem;
 
+  @media (max-width: 43.75em) {
+    min-width: 35rem;
+    min-height: 16rem;
+    font-size: 1.6rem;
+  }
+
   &--empty {
     font-size: 2.2rem;
     & p {
@@ -31,11 +37,15 @@
     }
 
     &--header {
+      @media (max-width: 33.75em) {
+        font-size: 1.8rem;
+      }
       font-size: 2.1rem;
       font-weight: 600;
 
       font-weight: 600;
-      background-color: rgba(125, 20, 205, 0.1);
+
+      background-color: rgba(111, 177, 252, 0.3);
     }
   }
 }

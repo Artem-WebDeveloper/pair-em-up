@@ -16,13 +16,23 @@ import { checkGameStatus } from '../game/gameStatus.js';
 import { getElapsedSeconds, formatTimer } from '../game/timer.js';
 
 export default function () {
+  const { validMoves } = STATE;
+
   const gameInterface = ui.createEl('div', 'game__interface');
 
   const infoEl = createGameInfo(STATE.score, GOAL_SCORE);
   const assistsEl = createAssists(STATE);
   const controlsEl = createControls();
 
-  gameInterface.append(infoEl, assistsEl, controlsEl);
+  const validMovesEl = ui.createEl(
+    'span',
+    'game__hint',
+    `🟦 Valid moves ${validMoves > 5 ? '5+' : validMoves}`,
+    null,
+    'valid-moves-item'
+  );
+
+  gameInterface.append(infoEl, validMovesEl, assistsEl, controlsEl);
   return gameInterface;
 }
 
@@ -32,7 +42,7 @@ function createGameInfo(score = 0, targetScore = 100) {
   const scoreEl = ui.createEl('div', 'game__score');
   const curScore = ui.createEl('span', 'game__score--cur', score);
   const goalScore = ui.createEl('span', 'game__score--goal', targetScore);
-  scoreEl.append('Score: ', curScore, '/', goalScore);
+  scoreEl.append('🏆 Score: ', curScore, '/', goalScore);
 
   const elapsed = getElapsedSeconds();
   const formattedTime = formatTimer(elapsed);
@@ -45,7 +55,7 @@ function createGameInfo(score = 0, targetScore = 100) {
 function createAssists(state = {}) {
   updateValidMoves();
   checkGameStatus();
-  const { validMoves } = state;
+
   const { assistsLeft = {} } = state;
   const { revert = 1, addNumbers = 10, shuffle = 5, eraser = 5 } = assistsLeft;
 
@@ -53,15 +63,6 @@ function createAssists(state = {}) {
   const assistsTitle = ui.createEl('h3', 'game__interface-title', 'Assists');
   const assistsBtnsContainer = ui.createEl('div', 'game__assists');
 
-  console.log('validMoves', validMoves);
-
-  const validMovesEl = ui.createEl(
-    'span',
-    'game__hint',
-    `Valid moves ${validMoves > 5 ? '5+' : validMoves}`,
-    null,
-    'valid-moves-item'
-  );
   const btnRevert = ui.createEl(
     'button',
     'game__btn',
@@ -73,7 +74,7 @@ function createAssists(state = {}) {
   const btnAddNumbers = ui.createEl(
     'button',
     'game__btn',
-    `🔢 Add Numbers ${addNumbers}`,
+    `🔢 Add Nums ${addNumbers}`,
     null,
     'add-numbers-btn'
   );
@@ -102,7 +103,7 @@ function createAssists(state = {}) {
   btnRevert.addEventListener('click', handleRevert);
 
   assistsBtnsContainer.append(
-    validMovesEl,
+    // validMovesEl,
     btnRevert,
     btnAddNumbers,
     btnShuffle,
@@ -149,9 +150,7 @@ function createControls() {
   btnContinue.addEventListener('click', handlerContinueGame);
   btnSettings.addEventListener('click', handlerSettingsOpen);
 
-  // btnSettings.addEventListener('click', )
-
-  controlsBtnsContainer.append(btnReset, btnSave, btnContinue, btnSettings);
+  controlsBtnsContainer.append(btnSave, btnContinue, btnReset, btnSettings);
   controls.append(controlsTitle, controlsBtnsContainer);
   return controls;
 }
@@ -159,7 +158,7 @@ function createControls() {
 export function updateValidMovesDisplay(validMoves) {
   const validEl = document.getElementById('valid-moves-item');
   if (!validEl) return;
-  validEl.textContent = `Valid moves ${validMoves > 5 ? '5+' : validMoves}`;
+  validEl.textContent = `🟦 Valid moves ${validMoves > 5 ? '5+' : validMoves}`;
 }
 
 export function updateScoreDisplay(score) {
