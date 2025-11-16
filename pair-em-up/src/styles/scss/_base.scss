@@ -1,8 +1,11 @@
 :root {
   --bg-color: #252525;
+  --bg-layer-color: #1f1f1f;
+  --bg-layer-grid-cells: rgba(214, 238, 255, 0.05);
+
   --bg-color-game: #353535;
   --bg-color-game: #2a2a2a;
-  // --bg-color-game: rgba(81, 80, 83, 0.938);
+
   --accent-1: #d6eeff;
   --shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 
@@ -20,16 +23,40 @@
 
   --shadow-color: rgba(0, 0, 0, 0.5);
 
+  --grid-bg: rgba(81, 80, 83, 0.7);
   --cell: rgb(19, 131, 191);
   --empty-cell: rgb(18, 117, 171);
   --succes-cell: #4caf50;
   --selected-cell: rgb(14, 92, 135);
   --error-cell: #ff6f61;
+
+  --card-bg: #2a2a2a;
+
+  --bg-menu-btn: #4d4d4d;
+  --bg-menu-btn-hover: #303030;
+  --bg-menu-btn-border: #6fb1fc;
 }
 
 .light-mode {
-  --bg-color: #d2d2d2;
-  --bg-color-game: #cfcfcf;
+  --bg-layer-color: #513c3c;
+  --bg-layer-grid-cells: rgba(214, 238, 255, 0.09);
+  --bg-color: #a69c9c;
+  --bg-color: #775252;
+  --bg-color-game: #826565;
+
+  --grid-bg: #47418e;
+  --cell: #6366f1;
+  --succes-cell: #22d3ee;
+  --error-cell: #f87171;
+  --selected-cell: #4f46e5;
+  --empty-cell: #3730a3;
+
+  --card-bg: #6f504d;
+  --gradient-text: linear-gradient(94deg, #6fb1fc 27%, rgb(255, 254, 255) 70%);
+
+  --bg-menu-btn: #b97474;
+  --bg-menu-btn-hover: #a95b5b;
+  --bg-menu-btn-border: #88b0dd;
 }
 
 *,
@@ -38,6 +65,14 @@
   margin: 0;
   padding: 0;
   box-sizing: inherit;
+}
+
+input,
+textarea,
+a,
+[contenteditable='true'] {
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 html {
@@ -76,6 +111,8 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   padding: 5rem 3rem;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 body:has(.popup--open) {
@@ -129,7 +166,7 @@ button {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-color: #1f1f1f;
+  background-color: var(--bg-layer-color);
   overflow: hidden;
 }
 
@@ -139,9 +176,9 @@ button {
   height: 200%;
   background-image: linear-gradient(
       transparent 98%,
-      rgba(214, 238, 255, 0.05) 2%
+      var(--bg-layer-grid-cells) 2%
     ),
-    linear-gradient(90deg, transparent 98%, rgba(214, 238, 255, 0.05) 2%);
+    linear-gradient(90deg, transparent 98%, var(--bg-layer-grid-cells) 2%);
   background-size: 80px 80px;
   animation: gridMove 30s linear infinite;
   opacity: 0.25;

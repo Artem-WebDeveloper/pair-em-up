@@ -32,7 +32,7 @@ export function handleCellClick(e, container) {
 
   if (selected.length < 2) {
     selected.push(click);
-    console.log(STATE);
+
     click.classList.toggle('game__cell--selected');
 
     playSound('cellClick');
@@ -46,7 +46,6 @@ export function handleCellClick(e, container) {
     document
       .querySelectorAll('.game__cell')
       .forEach(el => el.classList.remove('game__cell--selected'));
-    console.log(checkPair(selected));
 
     if (checkPair(selected)) {
       playSound('pairMatch');
@@ -62,8 +61,6 @@ export function handleCellClick(e, container) {
       STATE.score += getPairScore(selected);
       STATE.assistsLeft.revert = 1;
       updateVisibleRevertBtn(STATE);
-
-      console.log('revert', STATE.assistsLeft.revert);
 
       updateScoreDisplay(STATE.score);
       updateValidMoves();
@@ -201,6 +198,7 @@ export function handlerAddNumbers(mode) {
 
     STATE.assistsLeft.revert = 1;
     saveState(STATE);
+    playSound('assist');
     renderGameScreen(mode);
   }
 }
@@ -218,6 +216,7 @@ export function handlerShuffle() {
 
   STATE.assistsLeft.revert = 1;
   saveState(STATE);
+  playSound('assist');
   renderGameScreen(STATE.mode);
 }
 
@@ -232,12 +231,13 @@ export function handleEraser(elem) {
 
   STATE.assistsLeft.revert = 1;
   saveState(STATE);
+  playSound('assist');
   renderGameScreen(STATE.mode);
 }
 
 export function handleRevert() {
   const { revert } = STATE.assistsLeft;
-  console.log(revert);
+
   if (STATE.history === null || revert <= 0) return;
 
   STATE.grid = STATE.history.grid;
@@ -250,6 +250,7 @@ export function handleRevert() {
   STATE.history = null;
 
   saveState(STATE);
+  playSound('assist');
   renderGameScreen(STATE.mode);
 }
 
@@ -261,14 +262,15 @@ export function handlerResetCurGame(mode) {
 
 export function handlerSaveGame() {
   saveGame();
-  console.log('Game is saved');
   renderGameScreen(STATE.mode);
+  showNotification('💾 Game is Saved');
 }
 
 export function handlerContinueGame() {
   if (!loadGame()) return;
 
   renderGameScreen(STATE.mode);
+  showNotification('▶️ Game is Loaded');
 }
 
 // *GENERAL HANDLERS*
@@ -280,4 +282,26 @@ export function handlerSettingsOpen() {
 export function handlerResultsOpen() {
   const results = createResultsScreen();
   popup.open(results);
+}
+
+function showNotification(message) {
+  if (document.querySelector('.notification')) return;
+
+  const notification = document.createElement('div');
+  notification.className = `notification`;
+  notification.textContent = message;
+
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.classList.add('notification--show');
+  }, 10);
+
+  setTimeout(() => {
+    notification.classList.remove('notification--show');
+
+    setTimeout(() => {
+      notification.remove();
+    }, 300);
+  }, 2000);
 }

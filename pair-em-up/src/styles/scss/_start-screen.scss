@@ -30,7 +30,7 @@
     padding: 2rem 4rem;
     width: 34rem;
     // border: 1px solid #fff;
-    background-color: #2a2a2a;
+    background-color: var(--card-bg);
     border-radius: 1.4rem;
     display: flex;
     flex-direction: column;
@@ -86,15 +86,15 @@
     transition: all 0.3s ease;
     font-family: inherit;
 
-    background: #4d4d4d;
+    background: var(--bg-menu-btn);
     color: #f0f0f0;
-    border: 2px solid #6fb1fc;
+    border: 2px solid var(--bg-menu-btn-border);
 
     &--active {
       background: #6fb1fc;
       color: white;
       box-shadow: 0 0 0 0 rgba(111, 177, 252, 0.7);
-      animation: pulse-border 3s infinite;
+      animation: pulse-border 2.4s infinite;
 
       @media (hover: hover) and (pointer: fine) {
         &:hover {
@@ -106,7 +106,7 @@
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background: #303030;
+        background: var(--bg-menu-btn-hover);
         border-color: #6fb1fc;
       }
     }
@@ -136,6 +136,11 @@
         opacity: 1;
       }
     }
+  }
+
+  & p {
+    user-select: text;
+    -webkit-user-select: text;
   }
 
   &__icon {

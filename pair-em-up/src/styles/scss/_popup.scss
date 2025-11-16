@@ -99,7 +99,7 @@
     transition: all 0.2s;
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        filter: brightness(0.75);
+        color: var(--primary-hover-color);
       }
     }
   }

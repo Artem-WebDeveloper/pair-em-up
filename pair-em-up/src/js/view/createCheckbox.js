@@ -8,6 +8,7 @@ function createCheckbox(id) {
     'sound-pair-matching': 'pairMatching',
     'sound-invalid-pair': 'invalidPair',
     'sound-cell-selection': 'cellSelection',
+    'sound-assists': 'assist',
     'app-theme': 'darkTheme',
   };
 

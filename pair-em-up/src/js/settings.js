@@ -3,6 +3,7 @@ export const DEFAULT_SETTINGS = {
   pairMatching: true,
   invalidPair: true,
   cellSelection: true,
+  assist: false,
   volume: 0.5,
   darkTheme: true,
 };

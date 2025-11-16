@@ -4,12 +4,16 @@ const sounds = {
   pairMatch: new Audio('./assets/sounds/success.mp3'),
   pairInvalid: new Audio('./assets/sounds/invalid.mp3'),
   cellClick: new Audio('./assets/sounds/select.mp3'),
+  assist: new Audio('./assets/sounds/assist.mp3'),
+  won: new Audio('./assets/sounds/won-game.mp3'),
+  lost: new Audio('./assets/sounds/lost-game.mp3'),
 };
 
 export function playSound(nameSound) {
   if (nameSound === 'pairMatch' && !SETTINGS.pairMatching) return;
   if (nameSound === 'pairInvalid' && !SETTINGS.invalidPair) return;
   if (nameSound === 'cellClick' && !SETTINGS.cellSelection) return;
+  if (nameSound === 'assist' && !SETTINGS.assist) return;
 
   if (sounds[nameSound]) {
     sounds[nameSound].currentTime = 0;

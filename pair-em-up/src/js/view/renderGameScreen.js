@@ -21,7 +21,7 @@ export default function (mode) {
   STATE.selected.length = 0;
 
   if (STATE.grid.length === 0) STATE.grid.push(...getModeGrid(mode));
-  console.log('state:', STATE);
+
   saveState(STATE);
 
   const container = document.querySelector('.container');

@@ -8,6 +8,7 @@ import {
 } from '../config.js';
 
 import renderGameEndScreen from '../view/renderGameEndScreen.js';
+import { playSound } from './sound.js';
 
 export function checkGameStatus() {
   if (STATE.gameStatus !== 'playing') return;
@@ -16,6 +17,7 @@ export function checkGameStatus() {
     STATE.gameStatus = 'won';
     saveState(STATE);
     SaveGameHistory('won');
+    playSound('won');
     queueMicrotask(() => renderGameEndScreen());
 
     return;
@@ -33,7 +35,7 @@ export function checkGameStatus() {
     STATE.gameStatus = 'lost';
     saveState(STATE);
     SaveGameHistory('lost');
-
+    playSound('lost');
     queueMicrotask(() => renderGameEndScreen());
 
     return;

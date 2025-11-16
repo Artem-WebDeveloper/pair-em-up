@@ -32,9 +32,9 @@ const DEFAULT_GRID = [
   9,
 ];
 
+export const GOAL_SCORE = 100;
 export const COLS = 9;
 export const MAX_GRID_ROWS = 50;
-export const GOAL_SCORE = 3;
 export const DOUBLE_5_SCORE = 3;
 export const SUM_10_SCORE = 2;
 export const IDENT_PAIR_SCORE = 1;

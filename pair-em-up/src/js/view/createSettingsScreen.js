@@ -13,6 +13,7 @@ export default function () {
     'sound-pair-matching'
   );
   const bgMusic = settingEl('Background music', 'bg-music');
+  const assist = settingEl('Assist Sounds', 'sound-assists');
   const pairInvalid = settingEl('Invalid pair attempts', 'sound-invalid-pair');
 
   const cellSelection = settingEl(
@@ -26,6 +27,7 @@ export default function () {
     bgMusic,
     pairMatching,
     pairInvalid,
+    assist,
     cellSelection,
     volume
   );

@@ -14,8 +14,10 @@ import {
 } from '../game/logic.js';
 import { checkGameStatus } from '../game/gameStatus.js';
 import { getElapsedSeconds, formatTimer } from '../game/timer.js';
+import renderStartScreen from './renderStartScreen.js';
 
 export default function () {
+  updateValidMoves();
   const { validMoves } = STATE;
 
   const gameInterface = ui.createEl('div', 'game__interface');
@@ -32,7 +34,10 @@ export default function () {
     'valid-moves-item'
   );
 
-  gameInterface.append(infoEl, validMovesEl, assistsEl, controlsEl);
+  const closeBtn = ui.createEl('button', 'game__btn-close', '✖');
+  closeBtn.addEventListener('click', () => renderStartScreen());
+
+  gameInterface.append(infoEl, validMovesEl, assistsEl, controlsEl, closeBtn);
   return gameInterface;
 }
 
@@ -53,7 +58,6 @@ function createGameInfo(score = 0, targetScore = 100) {
 }
 
 function createAssists(state = {}) {
-  updateValidMoves();
   checkGameStatus();
 
   const { assistsLeft = {} } = state;
@@ -102,13 +106,7 @@ function createAssists(state = {}) {
   btnEraser.addEventListener('click', () => handleEraser(STATE.selected[0]));
   btnRevert.addEventListener('click', handleRevert);
 
-  assistsBtnsContainer.append(
-    // validMovesEl,
-    btnRevert,
-    btnAddNumbers,
-    btnShuffle,
-    btnEraser
-  );
+  assistsBtnsContainer.append(btnRevert, btnAddNumbers, btnShuffle, btnEraser);
   assistsEl.append(assistsTitle, assistsBtnsContainer);
 
   return assistsEl;
