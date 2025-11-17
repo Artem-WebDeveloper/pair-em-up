@@ -114,7 +114,7 @@ function createAssists(state = {}) {
 
 function createControls() {
   const controls = ui.createEl('div', 'game__controls');
-  const controlsTitle = ui.createEl('h3', 'game__interface-title', 'Contols');
+  const controlsTitle = ui.createEl('h3', 'game__interface-title', 'Controls');
   const controlsBtnsContainer = ui.createEl('div', 'game__controls-btns');
 
   const btnReset = ui.createEl(
